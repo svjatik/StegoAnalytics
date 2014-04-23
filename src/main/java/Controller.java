@@ -42,8 +42,8 @@ public class Controller implements Initializable {
     private static final int BLUE = 2;
 
     private static ArrayList<int[]> sampleHisto = new ArrayList<int[]>(3);
-
     private static ArrayList<int[]> stegoHisto = new ArrayList<int[]>(3);
+    private static ArrayList<int[]> deviativeHisto = new ArrayList<int[]>(3);
 
     private BufferedImage stegoImage;
     private BufferedImage filteredStegoImage;
@@ -69,8 +69,16 @@ public class Controller implements Initializable {
 
     @FXML
     private TextField thresholdField;
+
     @FXML
-    private Text chiSquareText;
+    private Text imgStegoChiText;
+    @FXML
+    private Text imgFilteredStegoChiText;
+    @FXML
+    private Text stegoFilteredStegoChiText;
+
+    @FXML
+    private Text imageSizeText;
 
     @FXML
     private void handleOpenAction(){
@@ -82,7 +90,10 @@ public class Controller implements Initializable {
         FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(null);
 
-        inputImg.setImage(new Image(file.toURI().toString()));
+        Image image = new Image(file.toURI().toString());
+
+        imageSizeText.setText((int)image.getWidth() + "w x " + (int)image.getHeight() + "h");
+        inputImg.setImage(image);
 
         //Build sample histogram
         XYChart.Series inputSeries = getHistoSeries(file, SAMPLE, RED);
@@ -103,7 +114,7 @@ public class Controller implements Initializable {
 
 
 
-        XYChart.Series inputSeries1 = getSeries(sampleHisto.get(0), SAMPLE);
+        XYChart.Series inputSeries1 = getSeries(sampleHisto.get(0).clone(), SAMPLE);
         filterChart.getData().addAll(inputSeries1);
 
 //        MedianFilter filter = new MedianFilter(6);
@@ -112,7 +123,7 @@ public class Controller implements Initializable {
         XYChart.Series filteredSeries = getSampleWithDeviations(Controller.STEGO_AFTER_FILTRATION, RED);
         filterChart.getData().addAll(filteredSeries);
 
-        chiSquareText.setText("" + calculateChiSquare(RED));
+        setChiSquareValues(RED);
 
         setRadioGroupVisibility(isGrayScale());
     }
@@ -137,7 +148,7 @@ public class Controller implements Initializable {
                     filterChart.getData().addAll(getColorHistoSeries(SAMPLE, RED));
                     filterChart.getData().addAll(getSampleWithDeviations(STEGO_AFTER_FILTRATION, RED));
 
-                    chiSquareText.setText("" + calculateChiSquare(RED));
+                    setChiSquareValues(RED);
                 } else if(greenBtn.equals(observableValue.getValue())){
                     inputChart.getData().addAll(getColorHistoSeries(SAMPLE, GREEN));
                     inputChart.getData().addAll(getColorHistoSeries(STEGO, GREEN));
@@ -145,7 +156,7 @@ public class Controller implements Initializable {
                     filterChart.getData().addAll(getColorHistoSeries(SAMPLE, GREEN));
                     filterChart.getData().addAll(getSampleWithDeviations(Controller.STEGO_AFTER_FILTRATION, GREEN));
 
-                    chiSquareText.setText("" + calculateChiSquare(GREEN));
+                    setChiSquareValues(GREEN);
                 } else if(blueBtn.equals(observableValue.getValue())){
                     inputChart.getData().addAll(getColorHistoSeries(SAMPLE, BLUE));
                     inputChart.getData().addAll(getColorHistoSeries(STEGO, BLUE));
@@ -153,7 +164,7 @@ public class Controller implements Initializable {
                     filterChart.getData().addAll(getColorHistoSeries(SAMPLE, BLUE));
                     filterChart.getData().addAll(getSampleWithDeviations(Controller.STEGO_AFTER_FILTRATION, BLUE));
 
-                    chiSquareText.setText("" + calculateChiSquare(BLUE));
+                    setChiSquareValues(BLUE);
                 }
             }
         });
@@ -254,19 +265,28 @@ public class Controller implements Initializable {
 
             if(histo[i] < 0) histo[i] = 0;
         }
+
+        deviativeHisto.add(colHist, histo.clone());
         return getSeries(histo, name);
     }
 
-    private float calculateChiSquare(int colHist){
-        int[] sampleHist = sampleHisto.get(colHist).clone();
-        int[] stegoHist = stegoHisto.get(colHist).clone();
-
+    private float calculateChiSquare(int[] firstHisto, int[] secondHisto){
         float returnValue = 0;
 
-        for(int i = 0; ++i < sampleHist.length;)
-            returnValue += (Math.pow((stegoHist[i] - sampleHist[i]), 2) / sampleHist[i]);
+        for(int i = 0; ++i < firstHisto.length;)
+            if(firstHisto[i] != 0)
+                returnValue += (Math.pow((secondHisto[i] - firstHisto[i]), 2) / firstHisto[i]);
 
         return returnValue;
+    }
+
+    private void setChiSquareValues(int colour){
+        imgStegoChiText.setText("контейнер - стего: " + calculateChiSquare(sampleHisto.get(colour).clone(),
+                                                                            stegoHisto.get(colour).clone()));
+        imgFilteredStegoChiText.setText("контейнер - фільтроване стего: " + calculateChiSquare(sampleHisto.get(colour).clone(),
+                                                                                                deviativeHisto.get(colour).clone()));
+        stegoFilteredStegoChiText.setText("стего - фільтроване стего: " + calculateChiSquare(stegoHisto.get(colour).clone(),
+                                                                                            deviativeHisto.get(colour).clone()));
     }
 
 }

@@ -16,7 +16,7 @@
   <children>
     <AnchorPane prefHeight="780.0" prefWidth="1189.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
       <children>
-        <Button layoutX="514.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#handleOpenAction" text="Обрати зображення" />
+        <Button layoutX="718.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#handleOpenAction" text="Обрати зображення" />
         <LineChart fx:id="inputChart" layoutX="30.0" layoutY="78.0" prefHeight="327.0" prefWidth="514.0">
           <xAxis>
             <NumberAxis side="BOTTOM" />
@@ -25,13 +25,13 @@
             <NumberAxis side="LEFT" />
           </yAxis>
         </LineChart>
-        <Text layoutX="80.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Гістограми вхідного та стего зображень" />
+        <Text layoutX="14.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Значення функцій хі-квадрат при порівнянні гістограм" underline="true" />
         <fx:define>
           <ToggleGroup fx:id="toggleGroup" />
         </fx:define>
-        <RadioButton fx:id="redBtn" layoutX="680.0" layoutY="13.0" mnemonicParsing="false" text="Червоний" toggleGroup="$toggleGroup" />
-        <RadioButton fx:id="greenBtn" layoutX="680.0" layoutY="37.0" mnemonicParsing="false" text="Зелений" toggleGroup="$toggleGroup" />
-        <RadioButton fx:id="blueBtn" layoutX="680.0" layoutY="60.0" mnemonicParsing="false" text="Синій" toggleGroup="$toggleGroup" />
+        <RadioButton fx:id="redBtn" layoutX="884.0" layoutY="15.0" mnemonicParsing="false" text="Червоний" toggleGroup="$toggleGroup" />
+        <RadioButton fx:id="greenBtn" layoutX="884.0" layoutY="39.0" mnemonicParsing="false" text="Зелений" toggleGroup="$toggleGroup" />
+        <RadioButton fx:id="blueBtn" layoutX="884.0" layoutY="62.0" mnemonicParsing="false" text="Синій" toggleGroup="$toggleGroup" />
         <LineChart fx:id="filterChart" layoutX="30.0" layoutY="405.0" prefHeight="327.0" prefWidth="514.0">
           <xAxis>
             <NumberAxis side="BOTTOM" />
@@ -52,9 +52,12 @@
         </ImageView>
         <Text layoutX="638.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Вхідне зображення" />
         <Text layoutX="638.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Стего зображення після фільтрації" />
-        <TextField fx:id="thresholdField" alignment="CENTER" layoutX="453.0" layoutY="13.0" prefWidth="43.0" promptText="" text="5" />
-        <Text layoutX="248.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Значення порогу відбраківки" />
-        <Text fx:id="chiSquareText" layoutX="787.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+        <TextField fx:id="thresholdField" alignment="CENTER" layoutX="657.0" layoutY="15.0" prefWidth="43.0" promptText="" text="5" />
+        <Text layoutX="452.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Значення порогу відбраківки" />
+        <Text fx:id="imgStegoChiText" layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+        <Text fx:id="imgFilteredStegoChiText" layoutX="14.0" layoutY="36.0" scaleX="1.0" scaleY="1.0000065314451725" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+        <Text fx:id="stegoFilteredStegoChiText" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+        <Text fx:id="imageSizeText" layoutX="613.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       </children>
     </AnchorPane>
   </children>
