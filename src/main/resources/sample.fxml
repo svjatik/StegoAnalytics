@@ -57,7 +57,7 @@
         <Text fx:id="imgStegoChiText" layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
         <Text fx:id="imgFilteredStegoChiText" layoutX="14.0" layoutY="36.0" scaleX="1.0" scaleY="1.0000065314451725" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
         <Text fx:id="stegoFilteredStegoChiText" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
-        <Text fx:id="imageSizeText" layoutX="613.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+        <Text fx:id="imageSizeText" layoutX="613.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
       </children>
     </AnchorPane>
   </children>
